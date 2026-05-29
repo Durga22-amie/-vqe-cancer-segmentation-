@@ -1,0 +1,71 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyNB9QWOok2Cg3Kj35ocUJr8",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Durga22-amie/-vqe-cancer-segmentation-/blob/main/jaccard%20dice%20values%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "xYOoKrMP1JDk",
+        "outputId": "de68d4d1-65a8-4ba5-cd38-0d425f1f1434"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Dice: 0.750, Jaccard: 0.600\n"
+          ]
+        }
+      ],
+      "source": [
+        "from sklearn.metrics import jaccard_score\n",
+        "import numpy as np\n",
+        "\n",
+        "# ground_truth = your expert mask (binary array)\n",
+        "# otsu_pred = your Otsu output (binary array)\n",
+        "\n",
+        "# Example definitions for demonstration\n",
+        "ground_truth = np.array([[0, 1, 0], [1, 1, 0], [0, 0, 1]])\n",
+        "otsu_pred = np.array([[0, 1, 1], [1, 0, 0], [0, 0, 1]])\n",
+        "\n",
+        "intersection = np.logical_and(ground_truth, otsu_pred).sum()\n",
+        "union = np.logical_or(ground_truth, otsu_pred).sum()\n",
+        "tp = intersection\n",
+        "fp = otsu_pred.sum() - tp\n",
+        "fn = ground_truth.sum() - tp\n",
+        "\n",
+        "dice = 2*tp / (2*tp + fp + fn)\n",
+        "jaccard = tp / (tp + fp + fn)\n",
+        "print(f\"Dice: {dice:.3f}, Jaccard: {jaccard:.3f}\")"
+      ]
+    }
+  ]
+}
